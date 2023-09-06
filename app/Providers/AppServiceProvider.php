@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Models\User;
+use Database\Factories\TicketFactory;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -45,5 +47,9 @@ class AppServiceProvider extends ServiceProvider
         Blade::if('client', static function () {
             return Gate::allows('client');
         });
+
+        Validator::extend('severity', static function ($attribute, $value) {
+            return in_array($value, TicketFactory::$severities, true);
+        }, 'Severity value unknown.');
     }
 }
