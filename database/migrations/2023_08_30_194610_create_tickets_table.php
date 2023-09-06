@@ -32,7 +32,7 @@ return new class extends Migration {
                 'in-progress',
                 'resolved',
                 'closed'
-            ]);
+            ])->default('open');
             $table->timestamps();
         });
     }
