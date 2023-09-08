@@ -40,19 +40,7 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'body' => ['required', 'string', 'max:4000',],
-            'category_id' => ['required', 'integer', 'exists:categories,id'],
-            'severity' => ['required', 'severity']
-        ]);
-
-        # Set the logged-in user as the writer of the ticket
-        $validated['user_id'] = Auth::id();
-
-        $ticket = Ticket::create($validated);
-
-        return redirect()->route('tickets.show', $ticket);
+        return redirect()->route('tickets.show', $this->ticketService->storeTicket($request));
     }
 
     /**

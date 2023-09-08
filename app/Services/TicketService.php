@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Ticket;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
@@ -45,5 +46,19 @@ class TicketService
         }
 
         return $ticket;
+    }
+
+    public function storeTicket(Request $request){
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'body' => ['required', 'string', 'max:4000',],
+            'category_id' => ['required', 'integer', 'exists:categories,id'],
+            'severity' => ['required', 'severity']
+        ]);
+
+        # Set the logged-in user as the writer of the ticket
+        $validated['user_id'] = Auth::id();
+
+        return Ticket::create($validated);
     }
 }
