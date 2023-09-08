@@ -50,5 +50,9 @@ class AuthServiceProvider extends ServiceProvider
 
             return false;
         });
+
+        Gate::define('create-ticket', function (User $user){
+           return $user->role === 'client';
+        });
     }
 }
