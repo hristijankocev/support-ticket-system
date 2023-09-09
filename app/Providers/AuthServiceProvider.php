@@ -6,6 +6,7 @@ namespace App\Providers;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 
@@ -36,15 +37,15 @@ class AuthServiceProvider extends ServiceProvider
         }, 'Domain not valid for registration.');
 
         Gate::define('view-ticket', function (User $user, Ticket $ticket) {
-            if ($user->role === 'client') {
+            if ($user->can('client')) {
                 return $user->id === $ticket->user_id;
             }
 
-            if ($user->role === 'agent') {
+            if ($user->can('agent')) {
                 return $user->id === $ticket->agent_id;
             }
 
-            if ($user->role === 'admin') {
+            if ($user->can('admin')) {
                 return true;
             }
 
@@ -52,7 +53,15 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('create-ticket', function (User $user){
-           return $user->role === 'client';
+           return $user->can('client');
+        });
+
+        Gate::define('create-comment', function (User $user, int $ticketId){
+            $ticket = Ticket::find($ticketId);
+
+            return $ticket->user_id === Auth::id()
+                || $ticket->agent_id === Auth::id()
+                || $user->can('admin');
         });
     }
 }
