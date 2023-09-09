@@ -18,7 +18,7 @@
     <script>
         document.addEventListener('livewire:initialized', () => {
         @this.on('notificationMarkedAsRead', (notificationId) => {
-            let notification = document.querySelector(`[data-id=${notificationId}]`);
+            let notification = document.querySelector(`[data-id="${notificationId}"]`);
             notification.remove();
         });
         });
