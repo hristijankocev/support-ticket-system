@@ -40,6 +40,8 @@ Route::middleware('auth')->group(function () {
                 ->name('tickets.store');
         });
     Route::get('/tickets/{ticket:id}', [TicketController::class, 'show'])->name('tickets.show');
+    Route::put('/tickets/{ticket:id}', [TicketController::class, 'update'])
+        ->name('tickets.update');
 
     // Comment
     Route::post('/tickets/{ticket:id}/comments', [CommentsController::class, 'store'])

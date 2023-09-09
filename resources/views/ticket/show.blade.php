@@ -3,7 +3,9 @@
 
 <x-layouts.app>
     <div class="container mx-auto mt-8 lg:px-10 px-2 dark:bg-gray-900">
-        <div class="container bg-white dark:bg-gray-800 shadow p-4 rounded-lg">
+        <div class="container bg-white dark:bg-gray-800 shadow p-4 rounded-lg relative">
+            <x-ticket-modal :ticket="$ticket"></x-ticket-modal>
+
             <div class="lg:flex inline-block justify-between items-center mb-4">
                 <h1 class="text-2xl font-semibold dark:text-gray-100">{{ $ticket->title }}</h1>
                 <div>

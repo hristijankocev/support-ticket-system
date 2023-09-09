@@ -51,5 +51,13 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('severity', static function ($attribute, $value) {
             return in_array($value, TicketFactory::$severities, true);
         }, 'Severity value unknown.');
+
+        Validator::extend('status', static function ($attribute, $value) {
+            return in_array($value, TicketFactory::$statuses, true);
+        }, 'Status value unknown.');
+
+        Validator::extend('agent', static function ($attribute, $value) {
+            return User::find($value)?->role === 'agent';
+        }, 'User not found or is not an agent.');
     }
 }

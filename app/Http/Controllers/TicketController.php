@@ -6,7 +6,6 @@ use App\Models\Category;
 use App\Models\Ticket;
 use App\Services\TicketService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
 {
@@ -20,7 +19,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = $this->ticketService->getTickets();
+        $tickets = $this->ticketService->getAllTickets();
 
         return view('ticket.index', ['tickets' => $tickets]);
     }
@@ -52,19 +51,13 @@ class TicketController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Ticket $ticket)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Ticket $ticket)
     {
-        //
+        $this->ticketService->updateTicket($request, $ticket);
+
+        return redirect()->back();
     }
 
     /**

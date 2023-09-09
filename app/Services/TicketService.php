@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Gate;
 
 class TicketService
 {
-    public function getTickets()
+    public function getAllTickets()
     {
         if (Gate::allows('admin')) {
             return Ticket::with(['category', 'author'])
@@ -48,7 +48,8 @@ class TicketService
         return $ticket;
     }
 
-    public function storeTicket(Request $request){
+    public function storeTicket(Request $request)
+    {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'body' => ['required', 'string', 'max:4000',],
@@ -60,5 +61,33 @@ class TicketService
         $validated['user_id'] = Auth::id();
 
         return Ticket::create($validated);
+    }
+
+    public function updateTicket(Request $request, Ticket $ticket): void
+    {
+        if (Gate::allows('client') || Gate::allows('agent')) {
+            $validated = $request->validate([
+                'status' => ['required', 'status']
+            ]);
+
+            $ticket->update($validated);
+            return;
+        }
+
+        if (Gate::allows('admin')) {
+            $validated = $request->validate([
+                'severity' => ['required', 'severity'],
+                'status' => ['required', 'status']
+            ]);
+
+            if ($request->filled('agent_id')) {
+                $validated['agent_id'] = $request->validate([
+                    'agent_id' => ['integer', 'exists:users,id', 'agent']])['agent_id'];
+            } else {
+                $validated['agent_id'] = null;
+            }
+
+            $ticket->update($validated);
+        }
     }
 }
