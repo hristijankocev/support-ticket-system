@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
 use Illuminate\Support\Facades\Route;
@@ -21,9 +22,7 @@ Route::middleware('auth')->group(function () {
         return redirect('dashboard');
     });
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Profile
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
