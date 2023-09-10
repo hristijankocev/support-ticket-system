@@ -5,9 +5,14 @@
         {{ '[' . $notification->created_at . ']' }}
         @if($notification->data['type'] === NotificationType::NewUser->name)
             User {{ $notification->data['name'] }} ({{ $notification->data['email'] }}) has registered.
-        @elseif($notification->data['type'] === NotificationType::NewTicket->name)
-            User {{ $notification->data['name'] }} ({{ $notification->data['email'] }}) create a new ticket.
-        @elseif($notification->data['type'] === NotificationType::NewComment->name)
+        @endif
+        @admin
+        @if($notification->data['type'] === NotificationType::NewTicket->name)
+            User {{ $notification->data['name'] }} ({{ $notification->data['email'] }}) create a new
+            <a href="{{route('tickets.show', $notification->data['ticket_id'])}}" class="underline hover:text-gray-100">ticket.</a>
+        @endif
+        @endadmin
+        @if($notification->data['type'] === NotificationType::NewComment->name)
             User {{ $notification->data['name'] }} ({{ $notification->data['email'] }}) made a comment on ticket...
         @endif
     </span>

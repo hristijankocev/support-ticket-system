@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\NewTicket;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -60,7 +61,12 @@ class TicketService
         # Set the logged-in user as the writer of the ticket
         $validated['user_id'] = Auth::id();
 
-        return Ticket::create($validated);
+        $newTicket = Ticket::create($validated);
+
+        // TODO: Emmit event
+        event(new NewTicket(Auth::user(), $newTicket));
+
+        return $newTicket;
     }
 
     public function updateTicket(Request $request, Ticket $ticket): void
