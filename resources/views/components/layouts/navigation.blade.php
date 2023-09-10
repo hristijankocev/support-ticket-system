@@ -86,6 +86,14 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('tickets.index')" :active="request()->routeIs('tickets.index')">
+                {{ __('All Tickets') }}
+            </x-responsive-nav-link>
+            @client
+            <x-responsive-nav-link :href="route('tickets.create')" :active="request()->routeIs('tickets.create')">
+                {{ __('Create Ticket') }}
+            </x-responsive-nav-link>
+            @endclient
         </div>
 
         <!-- Responsive Settings Options -->
