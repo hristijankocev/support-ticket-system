@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\Ticket;
+use App\Services\TicketService;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -15,10 +15,12 @@ class TicketSearch extends Component
     public string $category = '';
     public string $severity = '';
 
-    public function render()
+    public function render(TicketService $ticketService)
     {
-        $query = Ticket::query()
-            ->where('title', 'like', '%' . $this->search . '%');
+        // Get all the tickets that the current user can view
+        $allTickets = $ticketService->getAllTickets();
+
+        $query = $allTickets->where('title', 'like', '%' . $this->search . '%');
 
         if (!empty($this->status)) {
             $query->where('status', $this->status);

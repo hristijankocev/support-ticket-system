@@ -19,9 +19,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = $this->ticketService->getAllTickets();
-
-        return view('ticket.index', ['tickets' => $tickets]);
+        return view('ticket.index');
     }
 
     /**
