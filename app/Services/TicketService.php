@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Events\NewTicket;
+use App\Events\TicketStatus;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -76,7 +77,11 @@ class TicketService
                 'status' => ['required', 'status']
             ]);
 
+            $oldStatus = $ticket->status;
+
             $ticket->update($validated);
+
+            $this->notifyStatusUpdate($ticket, $request, $oldStatus);
             return;
         }
 
@@ -93,7 +98,19 @@ class TicketService
                 $validated['agent_id'] = null;
             }
 
+            $oldStatus = $ticket->status;
+
             $ticket->update($validated);
+
+            $this->notifyStatusUpdate($ticket, $request, $oldStatus);
+        }
+    }
+
+    private function notifyStatusUpdate(Ticket $ticket, Request $request, string $oldStatus): void
+    {
+        $statusFromRequest = $request->input('status');
+        if ($oldStatus !== $statusFromRequest) {
+            event(new TicketStatus($ticket, Auth::user(), $oldStatus));
         }
     }
 }
