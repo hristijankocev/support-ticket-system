@@ -39,7 +39,7 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 RUN composer install --no-dev --no-interaction --optimize-autoloader
 
 # Check if .env file exists, if not copy .env.example
-RUN if [ ! -f .env ]; then cp .env.example .env; fi
+RUN if [ ! -f /var/www/html/.env ]; then cp /var/www/html/.env.example /var/www/html/.env; fi
 
 # Generate Laravel application key
 RUN php artisan key:generate
