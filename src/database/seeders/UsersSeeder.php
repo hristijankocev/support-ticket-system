@@ -19,7 +19,7 @@ class UsersSeeder extends Seeder
             'email' => 'hko@admin.com',
             'password' => 'password',
             'role' => 'admin'
-        ]);
+        ])->save();
 
         # Create agent users
         User::factory()->create([
@@ -28,7 +28,7 @@ class UsersSeeder extends Seeder
             'role' => 'agent',
             'email' => 'johndoe@agent.com',
             'password' => 'password'
-        ]);
+        ])->save();
 
         foreach (range(1, 4) as $ignored) {
             $email = fake()->unique()->userName() . '@agent.com';
