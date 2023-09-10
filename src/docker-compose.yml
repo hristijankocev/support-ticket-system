@@ -19,7 +19,6 @@ services:
             - ./.docker/logs/nginx:/var/logs/nginx:rw
         depends_on:
             - php
-            - postgres
         networks:
             - webapp
     php:
