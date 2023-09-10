@@ -21,6 +21,10 @@
             <a href="{{route('tickets.show', $notification->data['ticket_id'])}}" class="underline hover:text-gray-100">ticket</a>
             status from '{{ $notification->data['old_status'] }}' to '{{ $notification->data['new_status'] }}'.
         @endif
+        @if($notification->data['type'] === NotificationType::TicketAssigned->name)
+            Admin {{ $notification->data['name'] }} ({{ $notification->data['email'] }}) assigned you a
+            <a href="{{route('tickets.show', $notification->data['ticket_id'])}}" class="underline hover:text-gray-100">ticket.</a>
+        @endif
     </span>
     <button wire:click="markAsRead"
             class="dark:text-gray-300 hover:text-gray-400 md:absolute relative top-0 right-0 mr-4 mt-3">

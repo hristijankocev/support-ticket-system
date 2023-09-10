@@ -8,4 +8,5 @@ enum NotificationType
     case NewComment;
     case NewTicket;
     case TicketStatusUpdated;
+    case TicketAssigned;
 }

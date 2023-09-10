@@ -4,10 +4,12 @@ namespace App\Providers;
 
 use App\Events\NewComment;
 use App\Events\NewTicket;
+use App\Events\TicketAssigned;
 use App\Events\TicketStatus;
 use App\Listeners\SendNewCommentNotification;
 use App\Listeners\SendNewTicketNotification;
 use App\Listeners\SendNewUserNotification;
+use App\Listeners\SendTicketAssignedNotification;
 use App\Listeners\SendTicketStatusNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -35,6 +37,9 @@ class EventServiceProvider extends ServiceProvider
         TicketStatus::class => [
             SendTicketStatusNotification::class,
         ],
+        TicketAssigned::class => [
+            SendTicketAssignedNotification::class,
+        ]
     ];
 
     /**

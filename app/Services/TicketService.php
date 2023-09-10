@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Events\NewTicket;
+use App\Events\TicketAssigned;
 use App\Events\TicketStatus;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
@@ -103,6 +104,7 @@ class TicketService
             $ticket->update($validated);
 
             $this->notifyStatusUpdate($ticket, $request, $oldStatus);
+            $this->notifyAgent($ticket, $request);
         }
     }
 
@@ -111,6 +113,13 @@ class TicketService
         $statusFromRequest = $request->input('status');
         if ($oldStatus !== $statusFromRequest) {
             event(new TicketStatus($ticket, Auth::user(), $oldStatus));
+        }
+    }
+
+    private function notifyAgent(Ticket $ticket, Request $request): void
+    {
+        if ($request->filled('agent_id')) {
+            event(new TicketAssigned($ticket, Auth::user()));
         }
     }
 }
