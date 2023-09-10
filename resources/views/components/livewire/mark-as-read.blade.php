@@ -13,7 +13,8 @@
         @endif
         @endadmin
         @if($notification->data['type'] === NotificationType::NewComment->name)
-            User {{ $notification->data['name'] }} ({{ $notification->data['email'] }}) made a comment on ticket...
+            User {{ $notification->data['name'] }} ({{ $notification->data['email'] }}) made a
+            <a href="{{route('tickets.show', $notification->data['ticket_id'])}}" class="underline hover:text-gray-100">new comment.</a>
         @endif
     </span>
     <button wire:click="markAsRead"

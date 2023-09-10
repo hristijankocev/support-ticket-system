@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\NewComment;
 use App\Events\NewTicket;
+use App\Listeners\SendNewCommentNotification;
 use App\Listeners\SendNewTicketNotification;
 use App\Listeners\SendNewUserNotification;
 use Illuminate\Auth\Events\Registered;
@@ -24,7 +26,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         NewTicket::class => [
             SendNewTicketNotification::class,
-        ]
+        ],
+        NewComment::class => [
+            SendNewCommentNotification::class,
+        ],
     ];
 
     /**

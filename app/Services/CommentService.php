@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\NewComment;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,10 @@ class CommentService
         # Set the logged-in user as the writer of the ticket
         $validated['user_id'] = Auth::id();
 
-        return Comment::create($validated);
+        $newComment = Comment::create($validated);
+
+        event(new NewComment($newComment));
+
+        return $newComment;
     }
 }
