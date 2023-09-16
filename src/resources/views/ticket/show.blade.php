@@ -81,7 +81,8 @@
                 @if ($ticket->comments->count() > 0)
                     <ul>
                         @foreach ($ticket->comments as $comment)
-                            <li class="rounded text-gray-600 dark:text-gray-400 my-1 dark:bg-gray-700 px-2">
+                            <li class="rounded text-gray-600 dark:text-gray-400 my-1 dark:bg-gray-700 px-2
+                            bg-gray-200">
                                 <strong>
                                     @if($comment->author->id === Auth::id())
                                         You

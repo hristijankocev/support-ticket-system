@@ -4,7 +4,7 @@
     <button data-modal-target="defaultModal" data-modal-toggle="defaultModal"
             class="pb-1"
             type="button">
-        <i class="fa-solid fa-pen-to-square fa-lg text-white"></i>
+        <i class="fa-solid fa-pen-to-square fa-lg dark:text-white"></i>
     </button>
 
     <!-- Main modal -->
