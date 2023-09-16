@@ -95,7 +95,10 @@ class TicketService
             $ticket->update($validated);
 
             $this->notifyStatusUpdate($ticket, $request, $oldStatus);
-            $this->notifyAgent($ticket, $request);
+
+            if ((int)$validated['agent_id'] !== (int)$ticket->agent->id) {
+                $this->notifyAgent($ticket, $request);
+            }
         }
     }
 
